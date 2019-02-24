@@ -1,0 +1,58 @@
+{
+  "name": "partly-fog",
+  "version": "0.0.0",
+  "description": "Background pixel-fog bundle",
+  "homepage": "http://www.github.com/partlyawesome/partly-fog",
+  "author": {
+    "name": "PartlyAwesome",
+    "email": "5777950+PartlyAwesome@users.noreply.github.com",
+    "url": "partlyaweso.me"
+  },
+  "files": [
+    "dashboard",
+    "graphics",
+    "extension.js",
+    "extension"
+  ],
+  "keywords": [
+    "pixijs",
+    "pixel",
+    "fog",
+    "nodecg-bundle"
+  ],
+  "nodecg": {
+    "compatibleRange": "^1.1.1",
+    "dashboardPanels": [
+      {
+        "name": "partly-fog",
+        "title": "partly-fog",
+        "width": 2,
+        "file": "partly-fog.html",
+        "headerColor": "#525F78"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "index.html",
+        "width": 1920,
+        "height": 1080
+      }
+    ]
+  },
+  "repository": "https://github.com/nodecg/nodecg.git",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^5.14.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "tinyify": "^2.5.0"
+  },
+  "dependencies": {
+    "pixi-layers": "^0.1.9",
+    "pixi.js": "^4.8.6",
+    "pnglib": "0.0.1"
+  }
+}
