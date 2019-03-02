@@ -39,7 +39,7 @@
       }
     ]
   },
-  "repository": "https://github.com/nodecg/nodecg.git",
+  "repository": "https://github.com/partlyawesome/partly-fog",
   "private": true,
   "devDependencies": {
     "eslint": "^5.14.1",

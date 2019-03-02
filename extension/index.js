@@ -14,16 +14,12 @@ module.exports = nodecg => {
   const pixelSize = 10
   const pngWidth = 500
   const pngDepth = 256
-  const pngHeight = numberOfRows * pixelSize
+  const pngHeight = numberOfRows
   const PNGlib = require('pnglib')
   const png = new PNGlib(pngWidth, pngHeight, pngDepth) // eslint-disable-line no-undef
 
-  let rowColours = []
-  let generatedPixelRows
   for (let rowIndex = 0; rowIndex < pngHeight; rowIndex++) {
-    if (generatedPixelRows !== undefined) {
-      generatedPixelRows++
-    }
+    const rowColours = []
     let colourBlockLength = 0
     let currentColour
     for (let pixel = 0; pixel < pngWidth; pixel++) {
@@ -35,7 +31,7 @@ module.exports = nodecg => {
         currentColour = undefined
       }
       if (currentColour === undefined) {
-        currentColour = colourFromPercent((rowIndex / pixelSize) / numberOfRows * 100)
+        currentColour = colourFromPercent(rowIndex / numberOfRows * 100)
       }
       rowColours.push(currentColour)
       colourBlockLength--
@@ -44,16 +40,9 @@ module.exports = nodecg => {
       if (rowColours.length !== pngWidth) {
         break
       }
-      if (generatedPixelRows === undefined) {
-        generatedPixelRows = 1
-      }
       const pngIndex = png.index(pixelColumn, rowIndex)
       const colourArray = rowColours[pixelColumn]
       png.buffer[pngIndex] = png.color(colourArray[0], colourArray[1], colourArray[2])
-      if (generatedPixelRows === pixelSize && pixelColumn === pngWidth - 1) {
-        generatedPixelRows = undefined
-        rowColours = []
-      }
     }
   }
 

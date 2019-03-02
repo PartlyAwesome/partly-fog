@@ -25,7 +25,7 @@ const fogSprites = []
 const numberOfRows = 108
 const pixelSize = 10
 const pngWidth = 500
-const pngHeight = numberOfRows * pixelSize
+const pngHeight = numberOfRows
 
 document.body.appendChild(app.view)
 
@@ -40,15 +40,15 @@ function setup () {
   nodecg.listenFor('pngGenerated', pngImageData => { // eslint-disable-line no-undef
     const bt = new BaseTexture.fromImage(pngImageData) // eslint-disable-line new-cap
     bt.on('update', () => {
-      for (let rowIndex = 0; rowIndex < pngHeight; rowIndex += pixelSize) {
+      for (let rowIndex = 0; rowIndex < pngHeight; rowIndex++) {
         const tFrame = new Rect(
           0, rowIndex,
-          pngWidth, pixelSize
+          pngWidth, 1
         )
         const ts = new TileSprite(new Texture(bt, tFrame), app.screen.width, pixelSize)
         stage.addChild(ts)
-        ts.y = rowIndex
-        const seconds = (124 - (rowIndex / pixelSize) * (120 / numberOfRows)) / 25
+        ts.y = rowIndex * pixelSize
+        const seconds = (124 - rowIndex * (120 / numberOfRows)) / 25
         ts.mvSpeed = pngWidth / seconds / 60
         ts.parentGroup = bgG
         fogSprites.push(ts)
