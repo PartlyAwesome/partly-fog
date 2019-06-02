@@ -51,8 +51,7 @@
     "tinyify": "^2.5.0"
   },
   "dependencies": {
-    "pixi-layers": "^0.1.9",
-    "pixi.js": "^4.8.6",
+    "pixi.js": "^5.0.3",
     "pnglib": "0.0.1"
   }
 }

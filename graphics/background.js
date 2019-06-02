@@ -2,23 +2,22 @@
 
 const pixi = PIXI // eslint-disable-line no-undef
 const AppMake = pixi.Application
-const loader = pixi.loader
+const loader = pixi.Loader.shared
 const Texture = pixi.Texture
 const BaseTexture = pixi.BaseTexture
-const TileSprite = pixi.extras.TilingSprite
+const TileSprite = pixi.TilingSprite
 const Rect = pixi.Rectangle
-const display = pixi.display
-const Group = display.Group
-const Layer = display.Layer
+const Container = pixi.Container
 
 const width = 1920
 const height = 1080
 
-const app = new AppMake(width, height, {
+const app = new AppMake({
+  width,
+  height,
   transparent: true,
   antialias: true
 })
-app.stage = new display.Stage()
 const stage = app.stage
 
 const fogSprites = []
@@ -29,16 +28,19 @@ const pngHeight = numberOfRows
 
 document.body.appendChild(app.view)
 
-loader.load(setup)
-
 const state = shift
-const bgG = new Group(-1, false)
+let fogContainer
+loader.load(setup)
 function setup () {
-  stage.group.enableSort = true
+  fogContainer = new Container()
+
+  fogContainer.zIndex = 10
+
+  stage.addChild(fogContainer)
 
   nodecg.sendMessage('ready') // eslint-disable-line no-undef
   nodecg.listenFor('pngGenerated', pngImageData => { // eslint-disable-line no-undef
-    const bt = new BaseTexture.fromImage(pngImageData) // eslint-disable-line new-cap
+    const bt = new BaseTexture.from(pngImageData) // eslint-disable-line new-cap
     bt.on('update', () => {
       for (let rowIndex = 0; rowIndex < pngHeight; rowIndex++) {
         const tFrame = new Rect(
@@ -46,15 +48,13 @@ function setup () {
           pngWidth, 1
         )
         const ts = new TileSprite(new Texture(bt, tFrame), app.screen.width, pixelSize)
-        stage.addChild(ts)
+        fogContainer.addChild(ts)
         ts.y = rowIndex * pixelSize
         const seconds = (124 - rowIndex * (120 / numberOfRows)) / 25
         ts.mvSpeed = pngWidth / seconds / 60
-        ts.parentGroup = bgG
         fogSprites.push(ts)
       }
 
-      stage.addChild(new Layer(bgG))
       app.ticker.add(delta => active(delta))
     })
   })
